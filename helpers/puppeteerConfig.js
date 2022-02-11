@@ -1,0 +1,3 @@
+module.exports = {
+    devtools: true
+}
