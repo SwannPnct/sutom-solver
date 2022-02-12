@@ -2,6 +2,8 @@ const puppeteer = require('puppeteer')
 const puppeteerConfig = require('./helpers/puppeteerConfig')
 const globals = require('./helpers/globals')
 const selectors = require('./helpers/selectors')
+const gameConfig = require('./game/config')
+const play = require('./game/play')
 
 const _url = 'https://sutom.nocle.fr/'
 
@@ -18,20 +20,21 @@ const closePanel = async () => {
 const setGameConfig = async () => {
     const { page } = globals
     const rows = await page.$$(selectors.rows)
-    const firstRow = await rows[0].$$('td')
+    const firstRow = await rows[0].$$(selectors.cells)
     const firstCellValue = await page.evaluate(el => el.textContent, firstRow[0])
     
-    globals.game.totalTries = rows.length
-    globals.game.wordLength = firstRow.length
-    globals.game.firstLetter = firstCellValue
-
-    console.log(globals.game)
+    gameConfig.totalTries = rows.length
+    gameConfig.wordLength = firstRow.length
+    gameConfig.firstLetter = firstCellValue
 }
 
 const start = async () => {
     await open()
     await closePanel()
-    await setGameConfig()
+    setTimeout(async () => { 
+        await setGameConfig()
+        setTimeout(async () => await play(), 500)
+    }, 1000)
 }
 
 start()
