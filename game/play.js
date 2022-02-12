@@ -88,8 +88,7 @@ const endOrPlay = async () => {
 
 const buildUnplacedRegex = () => {
     const letters = Object.keys(data.unplaced)
-    // check here, we might want to remove the , after the quantifier to reduce search
-    const contains = letters.reduce((exp, letter) => exp + `(?=.*${letter}{${data.unplaced[letter].count}})`, '')
+    const contains = letters.reduce((exp, letter) => exp + `(?=.*${letter}{${data.unplaced[letter].count},})`, '')
     const avoid = letters.reduce((exp, letter) => exp + data.unplaced[letter].tries.reduce((exp2, idx) => exp2 + `(?=^.{${idx}}[^${letter}].{${config.wordLength - idx - 1}}$)`,''), '')
     return `${contains}${avoid}`
 }
