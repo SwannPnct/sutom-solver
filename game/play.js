@@ -59,7 +59,7 @@ const updateUnplaced = (letter, idx) => {
 const updateData = async () => {
     resetUnplacedCounts()
     const completed = await globals.page.$$(selectors.completed)
-    const last = completed.slice(completed.length - 6, completed.length)
+    const last = completed.slice(completed.length - config.wordLength)
     for (let i = 0; i < last.length; i ++) {
         const result = last[i]
         const classHandle = await result.getProperty('className')
