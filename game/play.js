@@ -102,7 +102,6 @@ const buildRegex = () => {
 
 const updateMatches = () => {
     const regex = new RegExp(buildRegex())
-    console.log('reg', regex)
     data.matches = data.matches.filter((word) => regex.test(word))
 }
 
@@ -111,6 +110,9 @@ const play = async () => {
     else updateMatches()
 
     const word = getWord()
+    if (!word) {
+        return console.dir(data) 
+    }
 
     await typeWord(word)
     setTimeout(async () =>{ 
